@@ -177,26 +177,32 @@ export default function Index() {
 
               {/* Prize Banner */}
               <div
-                className="relative mx-auto max-w-xl mb-10 rounded-3xl overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300"
-                onClick={() => { setActiveSection("quiz"); resetQuiz(); }}
+                className="relative mx-auto max-w-xl mb-10 rounded-3xl overflow-hidden"
                 style={{ animation: "prizePulse 2.5s ease-in-out infinite" }}
               >
                 <div className="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-500 p-[3px] rounded-3xl">
-                  <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-[22px] px-6 py-5 flex items-center gap-4">
-                    <div className="text-5xl flex-shrink-0" style={{ animation: "bounceSlow 2s ease-in-out infinite" }}>🎁</div>
-                    <div className="text-left">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Гарантировано</span>
-                        <span className="text-xs text-amber-600 font-semibold">каждому участнику</span>
+                  <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-[22px] px-6 py-5 flex flex-col items-center gap-4">
+                    <div className="flex items-center gap-4 w-full">
+                      <div className="text-5xl flex-shrink-0" style={{ animation: "bounceSlow 2s ease-in-out infinite" }}>🎁</div>
+                      <div className="text-left">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Гарантировано</span>
+                          <span className="text-xs text-amber-600 font-semibold">каждому участнику</span>
+                        </div>
+                        <p className="font-bold text-gray-800 text-lg leading-snug">Пройди опрос и получи<br /><span className="text-orange-500">гарантированный приз!</span></p>
                       </div>
-                      <p className="font-bold text-gray-800 text-lg leading-snug">Пройди опрос и получи<br /><span className="text-orange-500">гарантированный приз!</span></p>
                     </div>
-                    <div className="ml-auto flex-shrink-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-sm px-4 py-2 rounded-full shadow-md whitespace-nowrap">
-                      Получить →
-                    </div>
+                    <a
+                      href="https://t.me/+JAvuU_3gtJ9mNTJi"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3 rounded-2xl text-white font-bold text-base text-center hover:scale-105 transition-all duration-300 shadow-lg"
+                      style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)" }}
+                    >
+                      🎁 Получи свой приз!
+                    </a>
                   </div>
                 </div>
-                {/* Sparkles */}
                 <span className="absolute top-1 right-8 text-xl" style={{ animation: "floatUp 2s ease-in-out infinite" }}>✨</span>
                 <span className="absolute bottom-1 left-8 text-lg" style={{ animation: "floatUp 2.5s ease-in-out infinite", animationDelay: "0.5s" }}>⭐</span>
               </div>
