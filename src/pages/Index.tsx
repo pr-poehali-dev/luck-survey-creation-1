@@ -137,7 +137,7 @@ export default function Index() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">🍀</span>
             <span className="font-pacifico text-xl bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-              УдачаТест
+              Удача это ты!
             </span>
           </div>
           <div className="flex gap-1 md:gap-2">
@@ -169,7 +169,7 @@ export default function Index() {
                 <span className="text-8xl md:text-9xl">🍀</span>
               </div>
               <h1 className="font-pacifico text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight bg-gradient-to-r from-yellow-400 via-orange-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
-                Насколько ты<br />везучий?
+                Удача —<br />это ты!
               </h1>
               <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Пройди наш опросник об удаче, узнай свой тип везения, прочитай вдохновляющие истории и получи советы по привлечению позитива в жизнь!
