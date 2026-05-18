@@ -393,17 +393,20 @@ export default function Index() {
                   <p className="text-white/95 text-lg leading-relaxed">{getResult().desc}</p>
                 </div>
                 <div className="space-y-4">
+                  <a
+                    href="https://t.me/+JAvuU_3gtJ9mNTJi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-5 rounded-full text-white font-bold text-xl hover:scale-105 transition-all duration-300 shadow-2xl flex items-center justify-center gap-3"
+                    style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)", animation: "prizePulse 2s ease-in-out infinite" }}
+                  >
+                    🎁 Получи свой приз!
+                  </a>
                   <button
                     onClick={resetQuiz}
-                    className="w-full py-4 rounded-full text-white font-bold text-lg hover:scale-105 transition-all duration-300 shadow-lg bg-gradient-to-r from-yellow-400 to-orange-500"
-                  >
-                    🔄 Пройти ещё раз
-                  </button>
-                  <button
-                    onClick={() => setActiveSection("tips")}
                     className="w-full py-4 rounded-full font-bold text-lg border-2 border-yellow-400 text-yellow-600 hover:bg-yellow-50 hover:scale-105 transition-all duration-300"
                   >
-                    💡 Читать советы по удаче
+                    🔄 Пройти ещё раз
                   </button>
                 </div>
               </div>
