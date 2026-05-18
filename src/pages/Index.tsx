@@ -110,6 +110,8 @@ export default function Index() {
 
   const progress = (currentQuestion / questions.length) * 100;
 
+  const [counter] = useState(() => 1247 + Math.floor(Math.random() * 30));
+
   return (
     <div className="min-h-screen font-golos bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
       {/* Floating particles */}
@@ -174,6 +176,18 @@ export default function Index() {
               <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Пройди наш опросник об удаче, узнай свой тип везения, прочитай вдохновляющие истории и получи советы по привлечению позитива в жизнь!
               </p>
+
+              {/* Social proof counter */}
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <div className="flex -space-x-2">
+                  {["🧑", "👩", "👨", "🧕", "👦"].map((em, i) => (
+                    <span key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-200 to-orange-200 border-2 border-white flex items-center justify-center text-sm shadow">{em}</span>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600">
+                  <span className="font-bold text-orange-500">{counter.toLocaleString("ru-RU")}</span> человек уже получили приз 🎁
+                </p>
+              </div>
 
               {/* Prize Banner */}
               <div
@@ -392,7 +406,17 @@ export default function Index() {
             ) : (
               <div className="text-center" style={{ animation: "fadeIn 0.5s ease-out" }}>
                 <div className="text-8xl mb-6">🎉</div>
-                <h2 className="font-pacifico text-3xl md:text-4xl mb-6 text-gray-800">Твой результат</h2>
+                <h2 className="font-pacifico text-3xl md:text-4xl mb-4 text-gray-800">Твой результат</h2>
+                <div className="flex items-center justify-center gap-2 mb-6">
+                  <div className="flex -space-x-2">
+                    {["🧑", "👩", "👨", "🧕", "👦"].map((em, i) => (
+                      <span key={i} className="w-7 h-7 rounded-full bg-gradient-to-br from-yellow-200 to-orange-200 border-2 border-white flex items-center justify-center text-xs shadow">{em}</span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    Вместе с тобой приз получили <span className="font-bold text-orange-500">{counter.toLocaleString("ru-RU")}</span> человек 🎁
+                  </p>
+                </div>
                 <div className={`bg-gradient-to-br ${getResult().color} rounded-3xl p-8 text-white shadow-2xl mb-8`}>
                   <div className="text-5xl mb-4">✨</div>
                   <h3 className="font-pacifico text-2xl md:text-3xl mb-4">{getResult().title}</h3>
