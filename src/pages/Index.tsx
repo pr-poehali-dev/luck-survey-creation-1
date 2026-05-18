@@ -171,9 +171,36 @@ export default function Index() {
               <h1 className="font-pacifico text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight bg-gradient-to-r from-yellow-400 via-orange-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
                 Насколько ты<br />везучий?
               </h1>
-              <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Пройди наш опросник об удаче, узнай свой тип везения, прочитай вдохновляющие истории и получи советы по привлечению позитива в жизнь!
               </p>
+
+              {/* Prize Banner */}
+              <div
+                className="relative mx-auto max-w-xl mb-10 rounded-3xl overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300"
+                onClick={() => { setActiveSection("quiz"); resetQuiz(); }}
+                style={{ animation: "prizePulse 2.5s ease-in-out infinite" }}
+              >
+                <div className="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-500 p-[3px] rounded-3xl">
+                  <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-[22px] px-6 py-5 flex items-center gap-4">
+                    <div className="text-5xl flex-shrink-0" style={{ animation: "bounceSlow 2s ease-in-out infinite" }}>🎁</div>
+                    <div className="text-left">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Гарантировано</span>
+                        <span className="text-xs text-amber-600 font-semibold">каждому участнику</span>
+                      </div>
+                      <p className="font-bold text-gray-800 text-lg leading-snug">Пройди опрос и получи<br /><span className="text-orange-500">гарантированный приз!</span></p>
+                    </div>
+                    <div className="ml-auto flex-shrink-0 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold text-sm px-4 py-2 rounded-full shadow-md whitespace-nowrap">
+                      Получить →
+                    </div>
+                  </div>
+                </div>
+                {/* Sparkles */}
+                <span className="absolute top-1 right-8 text-xl" style={{ animation: "floatUp 2s ease-in-out infinite" }}>✨</span>
+                <span className="absolute bottom-1 left-8 text-lg" style={{ animation: "floatUp 2.5s ease-in-out infinite", animationDelay: "0.5s" }}>⭐</span>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => { setActiveSection("quiz"); resetQuiz(); }}
