@@ -17,7 +17,7 @@ function useTickingCounter(start: number) {
   return count;
 }
 
-function useGeoLang() {
+function useGeoLang(): ["ru" | "kz", (l: "ru" | "kz") => void] {
   const [lang, setLang] = useState<"ru" | "kz">("ru");
   useEffect(() => {
     fetch("https://ipapi.co/json/")
@@ -27,7 +27,7 @@ function useGeoLang() {
       })
       .catch(() => {});
   }, []);
-  return lang;
+  return [lang, setLang];
 }
 
 const content = {
@@ -170,7 +170,7 @@ const content = {
 };
 
 export default function Index() {
-  const lang = useGeoLang();
+  const [lang, setLang] = useGeoLang();
   const t = content[lang];
 
   const [activeSection, setActiveSection] = useState("home");
@@ -235,7 +235,14 @@ export default function Index() {
               {t.brand}
             </span>
           </div>
-          <div className="flex gap-1 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-2">
+            <button
+              onClick={() => setLang(lang === "ru" ? "kz" : "ru")}
+              className="px-3 py-1.5 rounded-full text-xs font-bold border-2 border-yellow-300 text-yellow-600 hover:bg-yellow-50 transition-all duration-200 mr-1"
+              title={lang === "ru" ? "Қазақшаға ауысу" : "Переключить на русский"}
+            >
+              {lang === "ru" ? "🇰🇿 ҚАЗ" : "🇷🇺 РУС"}
+            </button>
             {navSections.map((id, idx) => (
               <button
                 key={id}
