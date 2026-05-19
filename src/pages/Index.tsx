@@ -1,96 +1,191 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
-const stories = [
-  {
-    name: "Марина К.",
-    city: "Москва",
-    emoji: "🍀",
-    text: "Я всегда считала себя невезучей, пока не начала замечать маленькие удачи каждый день. Однажды я нашла 500 рублей в кармане куртки — как раз когда не хватало на кофе. С тех пор я верю: удача рядом, просто нужно смотреть!",
-    color: "from-yellow-400 to-orange-400",
-  },
-  {
-    name: "Дмитрий В.",
-    city: "Санкт-Петербург",
-    emoji: "⭐",
-    text: "Опаздывал на важное собеседование, пробки были жуткие. Вдруг открылась полоса, и я приехал за 10 минут до начала. Получил работу мечты! До сих пор уверен — это была удача.",
-    color: "from-pink-400 to-purple-400",
-  },
-  {
-    name: "Анна Л.",
-    city: "Казань",
-    emoji: "🌈",
-    text: "На конкурсе рисунков выбрала случайную тему из шляпы — «радуга». Нарисовала за ночь, думала, не успею. Заняла первое место! Теперь радуга — мой личный символ удачи.",
-    color: "from-green-400 to-teal-400",
-  },
-  {
-    name: "Сергей М.",
-    city: "Екатеринбург",
-    emoji: "🎰",
-    text: "Купил лотерейный билет впервые в жизни, просто так, на кассе. Выиграл поездку в Турцию! Жена сначала не верила — пришлось показать билет три раза.",
-    color: "from-blue-400 to-cyan-400",
-  },
-];
+function useTickingCounter(start: number) {
+  const [count, setCount] = useState(start);
+  const ref = useRef(start);
+  useEffect(() => {
+    const tick = () => {
+      const delay = 4000 + Math.random() * 8000;
+      setTimeout(() => {
+        ref.current += 1;
+        setCount(ref.current);
+        tick();
+      }, delay);
+    };
+    tick();
+  }, []);
+  return count;
+}
 
-const tips = [
-  { emoji: "🌅", title: "Начинайте день с благодарности", text: "Каждое утро вспоминайте 3 вещи, за которые вы благодарны. Это настраивает ум на позитивные события и притягивает удачу." },
-  { emoji: "🍀", title: "Носите талисман", text: "Выберите предмет, который будет вашим личным символом удачи. Это может быть украшение, камень или даже любимая ручка." },
-  { emoji: "😊", title: "Улыбайтесь незнакомцам", text: "Удача любит открытых людей. Улыбка незнакомцу может стать началом важного знакомства или просто поднять настроение." },
-  { emoji: "🎯", title: "Действуйте, не ждите", text: "Удача приходит к тем, кто двигается. Купите билет, отправьте резюме, познакомьтесь — каждое действие открывает новые двери." },
-  { emoji: "🌟", title: "Верьте в себя", text: "Уверенность в собственных силах — лучший магнит для удачи. Когда вы верите, что справитесь, мир начинает помогать." },
-  { emoji: "🔄", title: "Меняйте маршруты", text: "Ходите новыми дорогами, пробуйте новые блюда, читайте необычные книги. Новые пути открывают новые возможности." },
-];
+function useGeoLang() {
+  const [lang, setLang] = useState<"ru" | "kz">("ru");
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.country_code === "KZ") setLang("kz");
+      })
+      .catch(() => {});
+  }, []);
+  return lang;
+}
 
-const questions = [
-  {
-    id: 1,
-    question: "Как часто вам везёт в повседневной жизни?",
-    options: ["Почти каждый день! 🎉", "Иногда случается ✨", "Редко, но метко 🍀", "Жду своего часа ⏳"],
+const content = {
+  ru: {
+    brand: "Удача это ты!",
+    nav: ["Главная", "Истории", "Советы", "Опросник"],
+    hero: {
+      title: "Удача —\nэто ты!",
+      subtitle: "Пройди наш опросник об удаче, узнай свой тип везения, прочитай вдохновляющие истории и получи советы по привлечению позитива в жизнь!",
+      counterText: "уже проверили свою удачу",
+      guaranteed: "Гарантировано",
+      everyParticipant: "каждому участнику",
+      prizeText: "Пройди опрос и получи",
+      prizeHighlight: "гарантированный приз!",
+      prizeBtn: "🎁 Получи свой приз!",
+      quizBtn: "🎲 Пройти опросник",
+      storiesBtn: "📖 Читать истории",
+    },
+    cards: [
+      { emoji: "📖", title: "Реальные истории", desc: "Вдохновляющие случаи удачи от обычных людей со всей России" },
+      { emoji: "💡", title: "Советы экспертов", desc: "6 проверенных способов привлечь удачу в свою жизнь прямо сейчас" },
+      { emoji: "🎲", title: "Твой тип удачи", desc: "5 вопросов — и ты узнаешь, какой ты везунчик!" },
+    ],
+    imageCta: "Удача любит тех, кто верит!",
+    stories: {
+      title: "Истории удачи",
+      subtitle: "Реальные случаи везения от людей со всей страны",
+      items: [
+        { name: "Марина К.", city: "Москва", emoji: "🍀", text: "Я всегда считала себя невезучей, пока не начала замечать маленькие удачи каждый день. Однажды я нашла 500 рублей в кармане куртки — как раз когда не хватало на кофе. С тех пор я верю: удача рядом, просто нужно смотреть!", color: "from-yellow-400 to-orange-400" },
+        { name: "Дмитрий В.", city: "Санкт-Петербург", emoji: "⭐", text: "Опаздывал на важное собеседование, пробки были жуткие. Вдруг открылась полоса, и я приехал за 10 минут до начала. Получил работу мечты! До сих пор уверен — это была удача.", color: "from-pink-400 to-purple-400" },
+        { name: "Анна Л.", city: "Казань", emoji: "🌈", text: "На конкурсе рисунков выбрала случайную тему из шляпы — «радуга». Нарисовала за ночь, думала, не успею. Заняла первое место! Теперь радуга — мой личный символ удачи.", color: "from-green-400 to-teal-400" },
+        { name: "Сергей М.", city: "Екатеринбург", emoji: "🎰", text: "Купил лотерейный билет впервые в жизни, просто так, на кассе. Выиграл поездку в Турцию! Жена сначала не верила — пришлось показать билет три раза.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Как привлечь удачу",
+      subtitle: "6 работающих советов для притяжения позитива",
+      items: [
+        { emoji: "🌅", title: "Начинайте день с благодарности", text: "Каждое утро вспоминайте 3 вещи, за которые вы благодарны. Это настраивает ум на позитивные события и притягивает удачу." },
+        { emoji: "🍀", title: "Носите талисман", text: "Выберите предмет, который будет вашим личным символом удачи. Это может быть украшение, камень или даже любимая ручка." },
+        { emoji: "😊", title: "Улыбайтесь незнакомцам", text: "Удача любит открытых людей. Улыбка незнакомцу может стать началом важного знакомства или просто поднять настроение." },
+        { emoji: "🎯", title: "Действуйте, не ждите", text: "Удача приходит к тем, кто двигается. Купите билет, отправьте резюме, познакомьтесь — каждое действие открывает новые двери." },
+        { emoji: "🌟", title: "Верьте в себя", text: "Уверенность в собственных силах — лучший магнит для удачи. Когда вы верите, что справитесь, мир начинает помогать." },
+        { emoji: "🔄", title: "Меняйте маршруты", text: "Ходите новыми дорогами, пробуйте новые блюда, читайте необычные книги. Новые пути открывают новые возможности." },
+      ],
+      ctaTitle: "Готов проверить свою удачу?",
+      ctaDesc: "Пройди наш опросник и узнай свой тип везения!",
+      ctaBtn: "🎲 Пройти опросник",
+    },
+    quiz: {
+      title: "Опросник удачи",
+      questionOf: (cur: number, total: number) => `Вопрос ${cur} из ${total}`,
+      resultTitle: "Твой результат",
+      counterText: (n: string) => `Вместе с тобой приз получили ${n} человек 🎁`,
+      prizeBtn: "🎁 Получи свой приз!",
+      retryBtn: "🔄 Пройти ещё раз",
+      questions: [
+        { id: 1, question: "Как часто вам везёт в повседневной жизни?", options: ["Почти каждый день! 🎉", "Иногда случается ✨", "Редко, но метко 🍀", "Жду своего часа ⏳"] },
+        { id: 2, question: "Какой талисман удачи вам ближе всего?", options: ["Четырёхлистный клевер 🍀", "Подкова 🐴", "Монетка 🪙", "Звезда ⭐"] },
+        { id: 3, question: "Что вы делаете, когда нужна удача?", options: ["Стучу по дереву 🌳", "Загадываю желание на звезду 🌠", "Полагаюсь на себя 💪", "Несу любимый талисман 🎁"] },
+        { id: 4, question: "Где удача вас настигает чаще всего?", options: ["На работе / в учёбе 📚", "В личной жизни 💕", "В случайных встречах 🤝", "В финансах 💰"] },
+        { id: 5, question: "Верите ли вы, что удачу можно притянуть?", options: ["Да, абсолютно! ✨", "Скорее да, чем нет 🌟", "Сомневаюсь 🤔", "Всё в руках человека 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Скрытая звезда ⭐", desc: "Удача уже рядом с вами — вы просто пока её не замечаете! Начните вести дневник маленьких побед и увидите, как жизнь полна удачных моментов.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Искатель удачи 🌈", desc: "Вы на правильном пути! Удача посещает вас регулярно, и вы умеете её ценить. Продолжайте двигаться вперёд с позитивом!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Баловень судьбы 🍀", desc: "Удача — ваша постоянная спутница! Вы излучаете позитивную энергию, притягиваете нужных людей и оказываетесь в нужном месте в нужное время.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 УдачаТест — притягивай позитив каждый день ✨",
   },
-  {
-    id: 2,
-    question: "Какой талисман удачи вам ближе всего?",
-    options: ["Четырёхлистный клевер 🍀", "Подкова 🐴", "Монетка 🪙", "Звезда ⭐"],
+  kz: {
+    brand: "Сәттілік — бұл сен!",
+    nav: ["Басты бет", "Оқиғалар", "Кеңестер", "Тест"],
+    hero: {
+      title: "Сәттілік —\nбұл сен!",
+      subtitle: "Сәттілік тестінен өт, өзіңнің бақыт түріңді біл, шабыттандыратын оқиғаларды оқы және өміріңе позитив тарту кеңестерін ал!",
+      counterText: "адам сәттілігін тексерді",
+      guaranteed: "Кепілдік берілген",
+      everyParticipant: "әр қатысушыға",
+      prizeText: "Сауалнамадан өт және",
+      prizeHighlight: "кепілдікті сыйлық ал!",
+      prizeBtn: "🎁 Сыйлығыңды ал!",
+      quizBtn: "🎲 Тестті тапсыру",
+      storiesBtn: "📖 Оқиғаларды оқу",
+    },
+    cards: [
+      { emoji: "📖", title: "Нақты оқиғалар", desc: "Қарапайым адамдардың шабыттандыратын сәттілік жағдайлары" },
+      { emoji: "💡", title: "Сарапшы кеңестері", desc: "Өміріңе сәттілікті тартудың 6 тексерілген жолы" },
+      { emoji: "🎲", title: "Сенің сәттілік түрің", desc: "5 сұрақ — және қандай бақытты адам екеніңді білесің!" },
+    ],
+    imageCta: "Сәттілік сенетіндерді жақсы көреді!",
+    stories: {
+      title: "Сәттілік оқиғалары",
+      subtitle: "Бүкіл елдегі адамдардың нақты бақыт жағдайлары",
+      items: [
+        { name: "Айгүл Б.", city: "Алматы", emoji: "🍀", text: "Мен өзімді бақытсыз деп санайтынмын, күнде кішкентай сәттіліктерді байқамайынша. Бір күні куртка қалтасынан 2000 теңге таптым — кофеге жетпей тұрғанда. Содан бері сенемін: сәттілік жанымда, тек қарау керек!", color: "from-yellow-400 to-orange-400" },
+        { name: "Нұрлан Қ.", city: "Астана", emoji: "⭐", text: "Маңызды сұхбатқа кешігіп бара жаттым, кептеліс ұзақ еді. Кенет жол ашылды, мен басталуға 10 минут қалғанда жеттім. Арман жұмысқа тұрдым! Бұл сәттілік болғанына сенемін.", color: "from-pink-400 to-purple-400" },
+        { name: "Дина Т.", city: "Шымкент", emoji: "🌈", text: "Сурет байқауында қалпақтан кездейсоқ тақырып алдым — «кемпірқосақ». Түні бойы салдым, үлгермеймін деп ойладым. Бірінші орын алдым! Енді кемпірқосақ — менің жеке сәттілік белгім.", color: "from-green-400 to-teal-400" },
+        { name: "Серік М.", city: "Қарағанды", emoji: "🎰", text: "Өмірімде бірінші рет лотерея билеті сатып алдым, жай ғана кассада. Түркияға саяхат ұттым! Әйелім алдымен сенбеді — билетті үш рет көрсетуге тура келді.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Сәттілікті қалай тарту керек",
+      subtitle: "Позитивті тартудың 6 тиімді кеңесі",
+      items: [
+        { emoji: "🌅", title: "Күніңді алғыспен бастаңыз", text: "Әр таңда ризашылығыңды білдіретін 3 нәрсені есіңе түсір. Бұл ойды позитивке баптайды және сәттілікті тартады." },
+        { emoji: "🍀", title: "Талисман тасыңыз", text: "Сенің жеке сәттілік белгің болатын нәрсені таңда. Бұл зергерлік бұйым, тас немесе тіпті сүйікті қалам болуы мүмкін." },
+        { emoji: "😊", title: "Бейтаныстарға күліңіз", text: "Сәттілік ашық адамдарды жақсы көреді. Бейтанысқа күлімдеу маңызды танысудың басы немесе жай ғана көңіл-күйді көтеру болуы мүмкін." },
+        { emoji: "🎯", title: "Күтпеңіз — әрекет жасаңыз", text: "Сәттілік жылжығандарға келеді. Билет сатып ал, түйіндемені жібер, танысып қал — әр әрекет жаңа есіктер ашады." },
+        { emoji: "🌟", title: "Өзіңізге сеніңіз", text: "Өз күшіне деген сенімділік — сәттіліктің ең жақсы магниті. Сен сенсең, әлем көмектесе бастайды." },
+        { emoji: "🔄", title: "Бағыттарыңызды өзгертіңіз", text: "Жаңа жолдармен жүріңіз, жаңа тамақтарды тастаңыз, әдеттен тыс кітаптарды оқыңыз. Жаңа жолдар жаңа мүмкіндіктер ашады." },
+      ],
+      ctaTitle: "Сәттіліктерін тексеруге дайынсың ба?",
+      ctaDesc: "Тестті тапсыр және сенің бақыт түріңді біл!",
+      ctaBtn: "🎲 Тестті тапсыру",
+    },
+    quiz: {
+      title: "Сәттілік тесті",
+      questionOf: (cur: number, total: number) => `${cur} сұрақ / ${total}`,
+      resultTitle: "Сенің нәтижең",
+      counterText: (n: string) => `Сенімен бірге ${n} адам сыйлық алды 🎁`,
+      prizeBtn: "🎁 Сыйлығыңды ал!",
+      retryBtn: "🔄 Қайта тапсыру",
+      questions: [
+        { id: 1, question: "Күнделікті өмірде сізге қаншалықты жиі сәт жүреді?", options: ["Күн сайын дерлік! 🎉", "Кейде болады ✨", "Сирек, бірақ дәл 🍀", "Сәтімді күтемін ⏳"] },
+        { id: 2, question: "Қандай сәттілік талисманы сізге жақынырақ?", options: ["Төрт жапырақты жоңышқа 🍀", "Тағаны 🐴", "Монета 🪙", "Жұлдыз ⭐"] },
+        { id: 3, question: "Сәттілік қажет болғанда не жасайсыз?", options: ["Ағашқа тоқылдатам 🌳", "Жұлдызға тілек тілеймін 🌠", "Өзіме сүйенемін 💪", "Сүйікті талисманымды аламын 🎁"] },
+        { id: 4, question: "Сізге сәттілік қай жерде жиі кездеседі?", options: ["Жұмыста / оқуда 📚", "Жеке өмірде 💕", "Кездейсоқ кездесулерде 🤝", "Қаржыда 💰"] },
+        { id: 5, question: "Сәттілікті тартуға болады деп сенесіз бе?", options: ["Иә, толығымен! ✨", "Иәге жақынырақ 🌟", "Күмәнданамын 🤔", "Бәрі адамның қолында 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Жасырын жұлдыз ⭐", desc: "Сәттілік сіздің жаныңызда — тек байқамай жүрсіз! Кішкентай жеңістер күнделігін жаза бастаңыз, өмір сәтті сәттерге толы екенін көресіз.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Сәттілік іздеуші 🌈", desc: "Сіз дұрыс жолдасыз! Сәттілік сізді үнемі кездестіреді, оны бағалай білесіз. Позитивпен алға жүруді жалғастырыңыз!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Тағдыр сүйіктісі 🍀", desc: "Сәттілік — сіздің тұрақты серіктесіңіз! Сіз позитив энергия шашырататасыз, керек адамдарды тартасыз және дұрыс уақытта дұрыс жерде боласыз.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 СәттілікТест — күн сайын позитив тарт ✨",
   },
-  {
-    id: 3,
-    question: "Что вы делаете, когда нужна удача?",
-    options: ["Стучу по дереву 🌳", "Загадываю желание на звезду 🌠", "Полагаюсь на себя 💪", "Несу любимый талисман 🎁"],
-  },
-  {
-    id: 4,
-    question: "Где удача вас настигает чаще всего?",
-    options: ["На работе / в учёбе 📚", "В личной жизни 💕", "В случайных встречах 🤝", "В финансах 💰"],
-  },
-  {
-    id: 5,
-    question: "Верите ли вы, что удачу можно притянуть?",
-    options: ["Да, абсолютно! ✨", "Скорее да, чем нет 🌟", "Сомневаюсь 🤔", "Всё в руках человека 💡"],
-  },
-];
-
-const results = [
-  { range: [0, 6], title: "Скрытая звезда ⭐", desc: "Удача уже рядом с вами — вы просто пока её не замечаете! Начните вести дневник маленьких побед и увидите, как жизнь полна удачных моментов.", color: "from-yellow-400 via-orange-400 to-red-400" },
-  { range: [7, 12], title: "Искатель удачи 🌈", desc: "Вы на правильном пути! Удача посещает вас регулярно, и вы умеете её ценить. Продолжайте двигаться вперёд с позитивом!", color: "from-green-400 via-teal-400 to-blue-400" },
-  { range: [13, 20], title: "Баловень судьбы 🍀", desc: "Удача — ваша постоянная спутница! Вы излучаете позитивную энергию, притягиваете нужных людей и оказываетесь в нужном месте в нужное время.", color: "from-pink-400 via-purple-400 to-indigo-400" },
-];
+};
 
 export default function Index() {
+  const lang = useGeoLang();
+  const t = content[lang];
+
   const [activeSection, setActiveSection] = useState("home");
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResult, setShowResult] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
-  const navItems = [
-    { id: "home", label: "Главная", emoji: "🏠" },
-    { id: "stories", label: "Истории", emoji: "📖" },
-    { id: "tips", label: "Советы", emoji: "💡" },
-    { id: "quiz", label: "Опросник", emoji: "🎲" },
-  ];
+  const counter = useTickingCounter(1247 + Math.floor(Math.random() * 30));
+
+  const navSections = ["home", "stories", "tips", "quiz"];
 
   const handleAnswer = (questionId: number, optionIndex: number) => {
     const newAnswers = { ...answers, [questionId]: optionIndex };
     setAnswers(newAnswers);
-    if (currentQuestion < questions.length - 1) {
+    if (currentQuestion < t.quiz.questions.length - 1) {
       setTimeout(() => setCurrentQuestion((q) => q + 1), 400);
     } else {
       setTimeout(() => setShowResult(true), 400);
@@ -99,7 +194,7 @@ export default function Index() {
 
   const getResult = () => {
     const total = Object.values(answers).reduce((sum, v) => sum + v, 0);
-    return results.find((r) => total >= r.range[0] && total <= r.range[1]) || results[1];
+    return t.quiz.results.find((r) => total >= r.range[0] && total <= r.range[1]) || t.quiz.results[1];
   };
 
   const resetQuiz = () => {
@@ -108,9 +203,7 @@ export default function Index() {
     setCurrentQuestion(0);
   };
 
-  const progress = (currentQuestion / questions.length) * 100;
-
-  const [counter] = useState(() => 1247 + Math.floor(Math.random() * 30));
+  const progress = (currentQuestion / t.quiz.questions.length) * 100;
 
   return (
     <div className="min-h-screen font-golos bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50">
@@ -139,22 +232,24 @@ export default function Index() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">🍀</span>
             <span className="font-pacifico text-xl bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-              Удача это ты!
+              {t.brand}
             </span>
           </div>
           <div className="flex gap-1 md:gap-2">
-            {navItems.map((item) => (
+            {navSections.map((id, idx) => (
               <button
-                key={item.id}
-                onClick={() => { setActiveSection(item.id); if (item.id === "quiz") resetQuiz(); }}
+                key={id}
+                onClick={() => { setActiveSection(id); if (id === "quiz") resetQuiz(); }}
                 className={`px-3 md:px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeSection === item.id
+                  activeSection === id
                     ? "text-white shadow-md scale-105 bg-gradient-to-r from-yellow-400 to-orange-400"
                     : "text-gray-600 hover:text-yellow-600 hover:bg-yellow-50"
                 }`}
               >
-                <span className="md:hidden">{item.emoji}</span>
-                <span className="hidden md:inline">{item.emoji} {item.label}</span>
+                <span className="md:hidden">{"🏠📖💡🎲".split("")[idx * 2]}{"🏠📖💡🎲".split("")[idx * 2 + 1]}</span>
+                <span className="hidden md:inline">
+                  {["🏠", "📖", "💡", "🎲"][idx]} {t.nav[idx]}
+                </span>
               </button>
             ))}
           </div>
@@ -170,11 +265,11 @@ export default function Index() {
               <div className="mb-6 inline-block" style={{ animation: "bounceSlow 3s ease-in-out infinite" }}>
                 <span className="text-8xl md:text-9xl">🍀</span>
               </div>
-              <h1 className="font-pacifico text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight bg-gradient-to-r from-yellow-400 via-orange-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
-                Удача —<br />это ты!
+              <h1 className="font-pacifico text-4xl md:text-6xl lg:text-7xl mb-6 leading-tight bg-gradient-to-r from-yellow-400 via-orange-400 via-pink-400 to-purple-500 bg-clip-text text-transparent whitespace-pre-line">
+                {t.hero.title}
               </h1>
               <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
-                Пройди наш опросник об удаче, узнай свой тип везения, прочитай вдохновляющие истории и получи советы по привлечению позитива в жизнь!
+                {t.hero.subtitle}
               </p>
 
               {/* Social proof counter */}
@@ -184,38 +279,36 @@ export default function Index() {
                     <span key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-200 to-orange-200 border-2 border-white flex items-center justify-center text-sm shadow">{em}</span>
                   ))}
                 </div>
-                <p className="text-sm text-gray-600">
-                  <span className="font-bold text-orange-500">{counter.toLocaleString("ru-RU")}</span> человек уже получили приз 🎁
+                <p className="text-sm text-gray-500">
+                  <span className="font-bold text-orange-500">{counter.toLocaleString("ru-RU")}</span> {t.hero.counterText}
                 </p>
               </div>
 
-              {/* Prize Banner */}
-              <div
-                className="relative mx-auto max-w-xl mb-10 rounded-3xl overflow-hidden"
-                style={{ animation: "prizePulse 2.5s ease-in-out infinite" }}
-              >
-                <div className="bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-500 p-[3px] rounded-3xl">
-                  <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-[22px] px-6 py-5 flex flex-col items-center gap-4">
-                    <div className="flex items-center gap-4 w-full">
-                      <div className="text-5xl flex-shrink-0" style={{ animation: "bounceSlow 2s ease-in-out infinite" }}>🎁</div>
-                      <div className="text-left">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">Гарантировано</span>
-                          <span className="text-xs text-amber-600 font-semibold">каждому участнику</span>
-                        </div>
-                        <p className="font-bold text-gray-800 text-lg leading-snug">Пройди опрос и получи<br /><span className="text-orange-500">гарантированный приз!</span></p>
+              {/* Prize banner */}
+              <div className="relative mb-8 max-w-md mx-auto">
+                <div
+                  className="rounded-3xl p-5 shadow-2xl border-2 border-orange-200"
+                  style={{ background: "linear-gradient(135deg, #fff7ed, #fef3c7, #fce7f3)", animation: "prizePulse 2.5s ease-in-out infinite" }}
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="text-5xl flex-shrink-0" style={{ animation: "bounceSlow 2s ease-in-out infinite" }}>🎁</div>
+                    <div className="text-left">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">{t.hero.guaranteed}</span>
+                        <span className="text-xs text-amber-600 font-semibold">{t.hero.everyParticipant}</span>
                       </div>
+                      <p className="font-bold text-gray-800 text-lg leading-snug">{t.hero.prizeText}<br /><span className="text-orange-500">{t.hero.prizeHighlight}</span></p>
                     </div>
-                    <a
-                      href="https://t.me/+JAvuU_3gtJ9mNTJi"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 rounded-2xl text-white font-bold text-base text-center hover:scale-105 transition-all duration-300 shadow-lg"
-                      style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)" }}
-                    >
-                      🎁 Получи свой приз!
-                    </a>
                   </div>
+                  <a
+                    href="https://t.me/+JAvuU_3gtJ9mNTJi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 rounded-2xl text-white font-bold text-base text-center hover:scale-105 transition-all duration-300 shadow-lg block"
+                    style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)" }}
+                  >
+                    {t.hero.prizeBtn}
+                  </a>
                 </div>
                 <span className="absolute top-1 right-8 text-xl" style={{ animation: "floatUp 2s ease-in-out infinite" }}>✨</span>
                 <span className="absolute bottom-1 left-8 text-lg" style={{ animation: "floatUp 2.5s ease-in-out infinite", animationDelay: "0.5s" }}>⭐</span>
@@ -226,34 +319,35 @@ export default function Index() {
                   onClick={() => { setActiveSection("quiz"); resetQuiz(); }}
                   className="px-8 py-4 rounded-full text-white font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 bg-gradient-to-r from-yellow-400 to-orange-500"
                 >
-                  🎲 Пройти опросник
+                  {t.hero.quizBtn}
                 </button>
                 <button
                   onClick={() => setActiveSection("stories")}
                   className="px-8 py-4 rounded-full font-bold text-lg border-2 border-yellow-400 text-yellow-600 hover:bg-yellow-50 hover:scale-105 transition-all duration-300"
                 >
-                  📖 Читать истории
+                  {t.hero.storiesBtn}
                 </button>
               </div>
             </section>
 
             <section className="px-4 pb-16 max-w-5xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                  { emoji: "📖", title: "Реальные истории", desc: "Вдохновляющие случаи удачи от обычных людей со всей России", bg: "from-yellow-50 to-orange-50", border: "border-yellow-200", section: "stories" },
-                  { emoji: "💡", title: "Советы экспертов", desc: "6 проверенных способов привлечь удачу в свою жизнь прямо сейчас", bg: "from-pink-50 to-purple-50", border: "border-pink-200", section: "tips" },
-                  { emoji: "🎲", title: "Твой тип удачи", desc: "5 вопросов — и ты узнаешь, какой ты везунчик!", bg: "from-green-50 to-teal-50", border: "border-green-200", section: "quiz" },
-                ].map((card) => (
-                  <div
-                    key={card.section}
-                    className={`bg-gradient-to-br ${card.bg} rounded-3xl p-6 border-2 ${card.border} hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer`}
-                    onClick={() => { setActiveSection(card.section); if (card.section === "quiz") resetQuiz(); }}
-                  >
-                    <div className="text-5xl mb-4">{card.emoji}</div>
-                    <h3 className="font-bold text-xl text-gray-800 mb-2">{card.title}</h3>
-                    <p className="text-gray-600">{card.desc}</p>
-                  </div>
-                ))}
+                {t.cards.map((card, idx) => {
+                  const sections = ["stories", "tips", "quiz"];
+                  const bgs = ["from-yellow-50 to-orange-50", "from-pink-50 to-purple-50", "from-green-50 to-teal-50"];
+                  const borders = ["border-yellow-200", "border-pink-200", "border-green-200"];
+                  return (
+                    <div
+                      key={idx}
+                      className={`bg-gradient-to-br ${bgs[idx]} rounded-3xl p-6 border-2 ${borders[idx]} hover:scale-105 hover:shadow-xl transition-all duration-300 cursor-pointer`}
+                      onClick={() => { setActiveSection(sections[idx]); if (sections[idx] === "quiz") resetQuiz(); }}
+                    >
+                      <div className="text-5xl mb-4">{card.emoji}</div>
+                      <h3 className="font-bold text-xl text-gray-800 mb-2">{card.title}</h3>
+                      <p className="text-gray-600">{card.desc}</p>
+                    </div>
+                  );
+                })}
               </div>
             </section>
 
@@ -265,7 +359,7 @@ export default function Index() {
                   className="w-full h-64 md:h-80 object-cover"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                  <p className="font-pacifico text-white text-2xl md:text-4xl text-center px-4 drop-shadow-lg">Удача любит тех, кто верит!</p>
+                  <p className="font-pacifico text-white text-2xl md:text-4xl text-center px-4 drop-shadow-lg">{t.imageCta}</p>
                 </div>
               </div>
             </section>
@@ -278,12 +372,12 @@ export default function Index() {
             <div className="text-center mb-12">
               <span className="text-6xl mb-4 block">📖</span>
               <h2 className="font-pacifico text-4xl md:text-5xl mb-4 bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
-                Истории удачи
+                {t.stories.title}
               </h2>
-              <p className="text-gray-600 text-lg max-w-xl mx-auto">Реальные случаи везения от людей со всей страны</p>
+              <p className="text-gray-600 text-lg max-w-xl mx-auto">{t.stories.subtitle}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {stories.map((story, i) => (
+              {t.stories.items.map((story, i) => (
                 <div key={i} className="rounded-3xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
                   <div className={`bg-gradient-to-r ${story.color} p-4 flex items-center gap-3`}>
                     <span className="text-4xl">{story.emoji}</span>
@@ -314,12 +408,12 @@ export default function Index() {
             <div className="text-center mb-12">
               <span className="text-6xl mb-4 block">💡</span>
               <h2 className="font-pacifico text-4xl md:text-5xl mb-4 bg-gradient-to-r from-green-400 via-teal-400 to-blue-500 bg-clip-text text-transparent">
-                Как привлечь удачу
+                {t.tips.title}
               </h2>
-              <p className="text-gray-600 text-lg max-w-xl mx-auto">6 работающих советов для притяжения позитива</p>
+              <p className="text-gray-600 text-lg max-w-xl mx-auto">{t.tips.subtitle}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {tips.map((tip, i) => (
+              {t.tips.items.map((tip, i) => (
                 <div
                   key={i}
                   className="bg-white rounded-3xl p-6 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border-2"
@@ -338,13 +432,13 @@ export default function Index() {
             </div>
             <div className="mt-12 bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 rounded-3xl p-8 text-center text-white shadow-xl">
               <div className="text-5xl mb-4">🌟</div>
-              <h3 className="font-pacifico text-2xl md:text-3xl mb-3">Готов проверить свою удачу?</h3>
-              <p className="mb-6 text-white/90">Пройди наш опросник и узнай свой тип везения!</p>
+              <h3 className="font-pacifico text-2xl md:text-3xl mb-3">{t.tips.ctaTitle}</h3>
+              <p className="mb-6 text-white/90">{t.tips.ctaDesc}</p>
               <button
                 onClick={() => { setActiveSection("quiz"); resetQuiz(); }}
                 className="bg-white text-orange-500 font-bold py-3 px-8 rounded-full hover:scale-105 transition-all duration-300 shadow-lg"
               >
-                🎲 Пройти опросник
+                {t.tips.ctaBtn}
               </button>
             </div>
           </div>
@@ -358,9 +452,9 @@ export default function Index() {
                 <div className="text-center mb-8">
                   <span className="text-6xl mb-4 block">🎲</span>
                   <h2 className="font-pacifico text-3xl md:text-4xl mb-2 bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-500 bg-clip-text text-transparent">
-                    Опросник удачи
+                    {t.quiz.title}
                   </h2>
-                  <p className="text-gray-500">Вопрос {currentQuestion + 1} из {questions.length}</p>
+                  <p className="text-gray-500">{t.quiz.questionOf(currentQuestion + 1, t.quiz.questions.length)}</p>
                 </div>
 
                 <div className="w-full bg-gray-100 rounded-full h-3 mb-8 overflow-hidden">
@@ -372,15 +466,15 @@ export default function Index() {
 
                 <div className="bg-white rounded-3xl shadow-xl p-8 mb-6 border border-yellow-100">
                   <h3 className="font-bold text-xl md:text-2xl text-gray-800 mb-6 text-center">
-                    {questions[currentQuestion].question}
+                    {t.quiz.questions[currentQuestion].question}
                   </h3>
                   <div className="space-y-3">
-                    {questions[currentQuestion].options.map((option, idx) => (
+                    {t.quiz.questions[currentQuestion].options.map((option, idx) => (
                       <button
                         key={idx}
-                        onClick={() => handleAnswer(questions[currentQuestion].id, idx)}
+                        onClick={() => handleAnswer(t.quiz.questions[currentQuestion].id, idx)}
                         className={`w-full text-left px-6 py-4 rounded-2xl font-medium text-gray-700 border-2 transition-all duration-200 hover:scale-[1.02] hover:shadow-md ${
-                          answers[questions[currentQuestion].id] === idx
+                          answers[t.quiz.questions[currentQuestion].id] === idx
                             ? "border-yellow-400 bg-yellow-50 text-yellow-800"
                             : "border-gray-100 bg-gray-50 hover:border-yellow-300 hover:bg-yellow-50"
                         }`}
@@ -392,7 +486,7 @@ export default function Index() {
                 </div>
 
                 <div className="flex justify-center gap-2">
-                  {questions.map((_, i) => (
+                  {t.quiz.questions.map((_, i) => (
                     <div
                       key={i}
                       className="w-3 h-3 rounded-full transition-all duration-300"
@@ -406,7 +500,7 @@ export default function Index() {
             ) : (
               <div className="text-center" style={{ animation: "fadeIn 0.5s ease-out" }}>
                 <div className="text-8xl mb-6">🎉</div>
-                <h2 className="font-pacifico text-3xl md:text-4xl mb-4 text-gray-800">Твой результат</h2>
+                <h2 className="font-pacifico text-3xl md:text-4xl mb-4 text-gray-800">{t.quiz.resultTitle}</h2>
                 <div className="flex items-center justify-center gap-2 mb-6">
                   <div className="flex -space-x-2">
                     {["🧑", "👩", "👨", "🧕", "👦"].map((em, i) => (
@@ -414,7 +508,7 @@ export default function Index() {
                     ))}
                   </div>
                   <p className="text-sm text-gray-500">
-                    Вместе с тобой приз получили <span className="font-bold text-orange-500">{counter.toLocaleString("ru-RU")}</span> человек 🎁
+                    {t.quiz.counterText(counter.toLocaleString("ru-RU"))}
                   </p>
                 </div>
                 <div className={`bg-gradient-to-br ${getResult().color} rounded-3xl p-8 text-white shadow-2xl mb-8`}>
@@ -430,13 +524,13 @@ export default function Index() {
                     className="w-full py-5 rounded-full text-white font-bold text-xl hover:scale-105 transition-all duration-300 shadow-2xl flex items-center justify-center gap-3"
                     style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444, #ec4899)", animation: "prizePulse 2s ease-in-out infinite" }}
                   >
-                    🎁 Получи свой приз!
+                    {t.quiz.prizeBtn}
                   </a>
                   <button
                     onClick={resetQuiz}
                     className="w-full py-4 rounded-full font-bold text-lg border-2 border-yellow-400 text-yellow-600 hover:bg-yellow-50 hover:scale-105 transition-all duration-300"
                   >
-                    🔄 Пройти ещё раз
+                    {t.quiz.retryBtn}
                   </button>
                 </div>
               </div>
@@ -445,7 +539,7 @@ export default function Index() {
         )}
 
         <footer className="text-center py-8 text-gray-400 text-sm">
-          <span>🍀 УдачаТест — притягивай позитив каждый день ✨</span>
+          <span>{t.footer}</span>
         </footer>
       </div>
     </div>
