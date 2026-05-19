@@ -17,7 +17,7 @@ function useTickingCounter(start: number) {
   return count;
 }
 
-type Lang = "ru" | "kz" | "pl";
+type Lang = "ru" | "kz" | "pl" | "id";
 
 function useGeoLang(): [Lang, (l: Lang) => void] {
   const [lang, setLang] = useState<Lang>("ru");
@@ -27,6 +27,7 @@ function useGeoLang(): [Lang, (l: Lang) => void] {
       .then((data) => {
         if (data.country_code === "KZ") setLang("kz");
         else if (data.country_code === "PL") setLang("pl");
+        else if (data.country_code === "ID") setLang("id");
       })
       .catch(() => {});
   }, []);
@@ -238,6 +239,74 @@ const content = {
     },
     footer: "🍀 SzczęścieTест — przyciągaj pozytyw każdego dnia ✨",
   },
+  id: {
+    brand: "Keberuntungan itu Kamu!",
+    nav: ["Beranda", "Kisah", "Tips", "Kuis"],
+    hero: {
+      title: "Keberuntungan —\nitu Kamu!",
+      subtitle: "Ikuti kuis keberuntungan kami, temukan tipe hoki-mu, baca kisah inspiratif, dan dapatkan tips menarik keberuntungan ke dalam hidupmu!",
+      counterText: "orang sudah menguji keberuntungannya",
+      guaranteed: "Dijamin",
+      everyParticipant: "untuk setiap peserta",
+      prizeText: "Ikuti kuis dan dapatkan",
+      prizeHighlight: "hadiah yang dijamin!",
+      prizeBtn: "🎁 Ambil hadiahmu!",
+      quizBtn: "🎲 Mulai kuis",
+      storiesBtn: "📖 Baca kisah",
+    },
+    cards: [
+      { emoji: "📖", title: "Kisah Nyata", desc: "Kisah keberuntungan yang menginspirasi dari orang-orang biasa di seluruh negeri" },
+      { emoji: "💡", title: "Tips Ahli", desc: "6 cara terbukti untuk menarik keberuntungan ke dalam hidupmu sekarang" },
+      { emoji: "🎲", title: "Tipe Hoki-mu", desc: "5 pertanyaan — dan kamu akan tahu betapa beruntungnya dirimu!" },
+    ],
+    imageCta: "Keberuntungan menyukai orang yang percaya!",
+    stories: {
+      title: "Kisah Keberuntungan",
+      subtitle: "Kasus hoki nyata dari orang-orang di seluruh negeri",
+      items: [
+        { name: "Sari W.", city: "Jakarta", emoji: "🍀", text: "Aku selalu merasa tidak beruntung, sampai aku mulai memperhatikan keberuntungan kecil setiap hari. Suatu kali aku menemukan uang 50 ribu di saku jaket — pas ketika uangku kurang untuk beli kopi. Sejak saat itu aku percaya: keberuntungan selalu ada, tinggal kita lihat!", color: "from-yellow-400 to-orange-400" },
+        { name: "Budi S.", city: "Surabaya", emoji: "⭐", text: "Aku terlambat ke wawancara kerja penting, macetnya parah. Tiba-tiba jalanan terbuka dan aku tiba 10 menit sebelum mulai. Dapat pekerjaan impian! Sampai sekarang aku yakin — itu keberuntungan.", color: "from-pink-400 to-purple-400" },
+        { name: "Dewi R.", city: "Bandung", emoji: "🌈", text: "Di lomba menggambar, aku mengambil tema acak dari topi — «pelangi». Aku menggambar semalaman, pikir tidak akan selesai. Aku juara satu! Sekarang pelangi adalah simbol keberuntunganku.", color: "from-green-400 to-teal-400" },
+        { name: "Agus P.", city: "Medan", emoji: "🎰", text: "Aku membeli tiket lotere untuk pertama kalinya dalam hidup, iseng saja di kasir. Menang perjalanan ke Bali! Istriku awalnya tidak percaya — harus menunjukkan tiketnya tiga kali.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Cara Menarik Keberuntungan",
+      subtitle: "6 tips ampuh untuk menarik hal positif",
+      items: [
+        { emoji: "🌅", title: "Mulai hari dengan rasa syukur", text: "Setiap pagi, ingat 3 hal yang kamu syukuri. Ini mengarahkan pikiran ke hal positif dan menarik keberuntungan." },
+        { emoji: "🍀", title: "Bawa jimat", text: "Pilih benda yang akan jadi simbol keberuntunganmu. Bisa perhiasan, batu, atau bahkan pena favoritmu." },
+        { emoji: "😊", title: "Senyum ke orang asing", text: "Keberuntungan menyukai orang yang terbuka. Senyum ke orang asing bisa jadi awal kenalan penting atau sekadar membuat hari lebih cerah." },
+        { emoji: "🎯", title: "Bertindak, jangan tunggu", text: "Keberuntungan datang ke mereka yang bergerak. Beli tiket, kirim lamaran, kenalan — setiap tindakan membuka pintu baru." },
+        { emoji: "🌟", title: "Percaya pada dirimu", text: "Kepercayaan diri adalah magnet terbaik untuk keberuntungan. Ketika kamu percaya bisa, dunia mulai membantu." },
+        { emoji: "🔄", title: "Ubah rutinitasmu", text: "Coba jalan baru, makanan baru, baca buku yang tidak biasa. Jalur baru membuka peluang baru." },
+      ],
+      ctaTitle: "Siap menguji keberuntunganmu?",
+      ctaDesc: "Ikuti kuis dan temukan tipe hoki-mu!",
+      ctaBtn: "🎲 Mulai kuis",
+    },
+    quiz: {
+      title: "Kuis Keberuntungan",
+      questionOf: (cur: number, total: number) => `Pertanyaan ${cur} dari ${total}`,
+      resultTitle: "Hasilmu",
+      counterText: (n: string) => `Bersama kamu, ${n} orang mendapat hadiah 🎁`,
+      prizeBtn: "🎁 Ambil hadiahmu!",
+      retryBtn: "🔄 Coba lagi",
+      questions: [
+        { id: 1, question: "Seberapa sering kamu beruntung dalam kehidupan sehari-hari?", options: ["Hampir setiap hari! 🎉", "Kadang-kadang ✨", "Jarang, tapi tepat 🍀", "Menunggu momenku ⏳"] },
+        { id: 2, question: "Jimat keberuntungan mana yang paling dekat denganmu?", options: ["Semanggi empat daun 🍀", "Tapal kuda 🐴", "Koin 🪙", "Bintang ⭐"] },
+        { id: 3, question: "Apa yang kamu lakukan ketika butuh keberuntungan?", options: ["Mengetuk kayu 🌳", "Berharap pada bintang 🌠", "Mengandalkan diri sendiri 💪", "Membawa jimat favorit 🎁"] },
+        { id: 4, question: "Di mana keberuntungan paling sering menemuimu?", options: ["Di pekerjaan / belajar 📚", "Di kehidupan pribadi 💕", "Dalam pertemuan tak terduga 🤝", "Dalam keuangan 💰"] },
+        { id: 5, question: "Apakah kamu percaya keberuntungan bisa ditarik?", options: ["Ya, tentu saja! ✨", "Lebih cenderung ya 🌟", "Ragu-ragu 🤔", "Semua ada di tangan manusia 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Bintang Tersembunyi ⭐", desc: "Keberuntungan sudah ada di dekatmu — kamu hanya belum memperhatikannya! Mulai tulis jurnal kemenangan kecil dan kamu akan melihat betapa penuhnya hidup dengan momen beruntung.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Pencari Keberuntungan 🌈", desc: "Kamu di jalur yang benar! Keberuntungan mengunjungimu secara rutin dan kamu tahu cara menghargainya. Terus melangkah maju dengan positif!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Kesayangan Nasib 🍀", desc: "Keberuntungan adalah teman setia-mu! Kamu memancarkan energi positif, menarik orang-orang yang tepat, dan berada di tempat yang tepat pada waktu yang tepat.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 KuisHoki — tarik hal positif setiap hari ✨",
+  },
 };
 
 export default function Index() {
@@ -307,7 +376,7 @@ export default function Index() {
             </span>
           </div>
           <div className="flex items-center gap-1 md:gap-2">
-            {(["ru", "kz", "pl"] as Lang[]).map((l) => (
+            {(["ru", "kz", "pl", "id"] as Lang[]).map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
@@ -317,7 +386,7 @@ export default function Index() {
                     : "border-yellow-300 text-yellow-600 hover:bg-yellow-50"
                 }`}
               >
-                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : "🇵🇱"}
+                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : l === "pl" ? "🇵🇱" : "🇮🇩"}
               </button>
             ))}
             {navSections.map((id, idx) => (
