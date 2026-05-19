@@ -17,13 +17,16 @@ function useTickingCounter(start: number) {
   return count;
 }
 
-function useGeoLang(): ["ru" | "kz", (l: "ru" | "kz") => void] {
-  const [lang, setLang] = useState<"ru" | "kz">("ru");
+type Lang = "ru" | "kz" | "pl";
+
+function useGeoLang(): [Lang, (l: Lang) => void] {
+  const [lang, setLang] = useState<Lang>("ru");
   useEffect(() => {
     fetch("https://ipapi.co/json/")
       .then((r) => r.json())
       .then((data) => {
         if (data.country_code === "KZ") setLang("kz");
+        else if (data.country_code === "PL") setLang("pl");
       })
       .catch(() => {});
   }, []);
@@ -167,11 +170,79 @@ const content = {
     },
     footer: "🍀 СәттілікТест — күн сайын позитив тарт ✨",
   },
+  pl: {
+    brand: "Szczęście to Ty!",
+    nav: ["Główna", "Historie", "Porady", "Quiz"],
+    hero: {
+      title: "Szczęście —\nto Ty!",
+      subtitle: "Weź udział w naszym quizie o szczęściu, poznaj swój typ fortuny, przeczytaj inspirujące historie i uzyskaj porady, jak przyciągnąć pozytyw do życia!",
+      counterText: "osób już sprawdziło swoje szczęście",
+      guaranteed: "Gwarantowane",
+      everyParticipant: "dla każdego uczestnika",
+      prizeText: "Weź udział w ankiecie i zdobądź",
+      prizeHighlight: "gwarantowaną nagrodę!",
+      prizeBtn: "🎁 Odbierz swoją nagrodę!",
+      quizBtn: "🎲 Przejdź quiz",
+      storiesBtn: "📖 Czytaj historie",
+    },
+    cards: [
+      { emoji: "📖", title: "Prawdziwe historie", desc: "Inspirujące przypadki szczęścia od zwykłych ludzi z całego kraju" },
+      { emoji: "💡", title: "Porady ekspertów", desc: "6 sprawdzonych sposobów na przyciągnięcie szczęścia do swojego życia" },
+      { emoji: "🎲", title: "Twój typ szczęścia", desc: "5 pytań — i dowiesz się, jakim szczęściarzem jesteś!" },
+    ],
+    imageCta: "Szczęście kocha tych, którzy wierzą!",
+    stories: {
+      title: "Historie szczęścia",
+      subtitle: "Prawdziwe przypadki fortuny od ludzi z całego kraju",
+      items: [
+        { name: "Marta K.", city: "Warszawa", emoji: "🍀", text: "Zawsze uważałam się za pechowca, dopóki nie zaczęłam dostrzegać małych szczęść każdego dnia. Pewnego razu znalazłam 50 zł w kieszeni kurtki — akurat kiedy brakowało mi na kawę. Od tamtej pory wierzę: szczęście jest blisko, trzeba tylko patrzeć!", color: "from-yellow-400 to-orange-400" },
+        { name: "Tomasz W.", city: "Kraków", emoji: "⭐", text: "Spóźniałem się na ważną rozmowę kwalifikacyjną, korki były straszne. Nagle otworzyła się ścieżka i dotarłem 10 minut przed rozpoczęciem. Dostałem wymarzoną pracę! Do dziś jestem przekonany — to było szczęście.", color: "from-pink-400 to-purple-400" },
+        { name: "Anna L.", city: "Wrocław", emoji: "🌈", text: "Na konkursie plastycznym wylosowałam z kapelusza przypadkowy temat — «tęcza». Malowałam całą noc, myślałam że nie zdążę. Zajęłam pierwsze miejsce! Teraz tęcza to mój osobisty symbol szczęścia.", color: "from-green-400 to-teal-400" },
+        { name: "Marek S.", city: "Poznań", emoji: "🎰", text: "Kupiłem los na loterię po raz pierwszy w życiu, tak po prostu, przy kasie. Wygrałem wycieczkę do Włoch! Żona z początku nie wierzyła — musiałem pokazać los trzy razy.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Jak przyciągnąć szczęście",
+      subtitle: "6 działających porad na przyciągnięcie pozytywu",
+      items: [
+        { emoji: "🌅", title: "Zacznij dzień od wdzięczności", text: "Każdego ranka przypomnij sobie 3 rzeczy, za które jesteś wdzięczny. To nastraja umysł na pozytywne zdarzenia i przyciąga szczęście." },
+        { emoji: "🍀", title: "Noś talizman", text: "Wybierz przedmiot, który będzie Twoim osobistym symbolem szczęścia. Może to być biżuteria, kamień, a nawet ulubiony długopis." },
+        { emoji: "😊", title: "Uśmiechaj się do nieznajomych", text: "Szczęście kocha otwartych ludzi. Uśmiech do nieznajomego może stać się początkiem ważnej znajomości lub po prostu poprawić humor." },
+        { emoji: "🎯", title: "Działaj, nie czekaj", text: "Szczęście przychodzi do tych, którzy się poruszają. Kup bilet, wyślij CV, poznaj kogoś — każde działanie otwiera nowe drzwi." },
+        { emoji: "🌟", title: "Wierz w siebie", text: "Pewność siebie to najlepszy magnes na szczęście. Kiedy wierzysz, że dasz radę, świat zaczyna pomagać." },
+        { emoji: "🔄", title: "Zmieniaj trasy", text: "Chodź nowymi drogami, próbuj nowych potraw, czytaj niezwykłe książki. Nowe ścieżki otwierają nowe możliwości." },
+      ],
+      ctaTitle: "Gotowy sprawdzić swoje szczęście?",
+      ctaDesc: "Przejdź nasz quiz i poznaj swój typ fortuny!",
+      ctaBtn: "🎲 Przejdź quiz",
+    },
+    quiz: {
+      title: "Quiz szczęścia",
+      questionOf: (cur: number, total: number) => `Pytanie ${cur} z ${total}`,
+      resultTitle: "Twój wynik",
+      counterText: (n: string) => `Razem z Tobą nagrodę otrzymało ${n} osób 🎁`,
+      prizeBtn: "🎁 Odbierz swoją nagrodę!",
+      retryBtn: "🔄 Spróbuj jeszcze raz",
+      questions: [
+        { id: 1, question: "Jak często masz szczęście w codziennym życiu?", options: ["Prawie każdego dnia! 🎉", "Czasem się zdarza ✨", "Rzadko, ale celnie 🍀", "Czekam na swoją kolej ⏳"] },
+        { id: 2, question: "Który talizman szczęścia jest Ci najbliższy?", options: ["Czterolistna koniczyna 🍀", "Podkowa 🐴", "Moneta 🪙", "Gwiazda ⭐"] },
+        { id: 3, question: "Co robisz, gdy potrzebujesz szczęścia?", options: ["Pukam w drewno 🌳", "Życzę sobie przy gwieździe 🌠", "Polegam na sobie 💪", "Noszę ulubiony talizman 🎁"] },
+        { id: 4, question: "Gdzie szczęście najczęściej Cię dotyczy?", options: ["W pracy / nauce 📚", "W życiu osobistym 💕", "W przypadkowych spotkaniach 🤝", "W finansach 💰"] },
+        { id: 5, question: "Czy wierzysz, że można przyciągnąć szczęście?", options: ["Tak, absolutnie! ✨", "Raczej tak 🌟", "Wątpię 🤔", "Wszystko w rękach człowieka 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Ukryta gwiazda ⭐", desc: "Szczęście jest już blisko Ciebie — po prostu jeszcze go nie zauważasz! Zacznij prowadzić dziennik małych zwycięstw i zobaczysz, jak życie jest pełne szczęśliwych chwil.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Poszukiwacz szczęścia 🌈", desc: "Jesteś na właściwej drodze! Szczęście odwiedza Cię regularnie i potrafisz je docenić. Kontynuuj marsz naprzód z pozytywem!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Ulubieniec losu 🍀", desc: "Szczęście to Twój stały towarzysz! Promieniujesz pozytywną energią, przyciągasz właściwych ludzi i jesteś we właściwym miejscu o właściwym czasie.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 SzczęścieTест — przyciągaj pozytyw każdego dnia ✨",
+  },
 };
 
 export default function Index() {
   const [lang, setLang] = useGeoLang();
-  const t = content[lang];
+  const t = content[lang as keyof typeof content];
 
   const [activeSection, setActiveSection] = useState("home");
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -236,13 +307,19 @@ export default function Index() {
             </span>
           </div>
           <div className="flex items-center gap-1 md:gap-2">
-            <button
-              onClick={() => setLang(lang === "ru" ? "kz" : "ru")}
-              className="px-3 py-1.5 rounded-full text-xs font-bold border-2 border-yellow-300 text-yellow-600 hover:bg-yellow-50 transition-all duration-200 mr-1"
-              title={lang === "ru" ? "Қазақшаға ауысу" : "Переключить на русский"}
-            >
-              {lang === "ru" ? "🇰🇿 ҚАЗ" : "🇷🇺 РУС"}
-            </button>
+            {(["ru", "kz", "pl"] as Lang[]).map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`px-2 py-1 rounded-full text-xs font-bold border-2 transition-all duration-200 ${
+                  lang === l
+                    ? "border-yellow-400 bg-yellow-400 text-white"
+                    : "border-yellow-300 text-yellow-600 hover:bg-yellow-50"
+                }`}
+              >
+                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : "🇵🇱"}
+              </button>
+            ))}
             {navSections.map((id, idx) => (
               <button
                 key={id}
