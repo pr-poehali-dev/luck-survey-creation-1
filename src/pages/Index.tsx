@@ -22,16 +22,22 @@ type Lang = "ru" | "kz" | "pl" | "id" | "az" | "uz";
 function useGeoLang(): [Lang, (l: Lang) => void] {
   const [lang, setLang] = useState<Lang>("ru");
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
+    const applyLang = (code: string) => {
+      if (code === "KZ") setLang("kz");
+      else if (code === "PL") setLang("pl");
+      else if (code === "ID") setLang("id");
+      else if (code === "AZ") setLang("az");
+      else if (code === "UZ") setLang("uz");
+    };
+    fetch("https://api.country.is/")
       .then((r) => r.json())
-      .then((data) => {
-        if (data.country_code === "KZ") setLang("kz");
-        else if (data.country_code === "PL") setLang("pl");
-        else if (data.country_code === "ID") setLang("id");
-        else if (data.country_code === "AZ") setLang("az");
-        else if (data.country_code === "UZ") setLang("uz");
-      })
-      .catch(() => {});
+      .then((data) => applyLang(data.country))
+      .catch(() =>
+        fetch("https://freeipapi.com/api/json")
+          .then((r) => r.json())
+          .then((data) => applyLang(data.countryCode))
+          .catch(() => {})
+      );
   }, []);
   return [lang, setLang];
 }
