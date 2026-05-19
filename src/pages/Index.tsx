@@ -17,7 +17,7 @@ function useTickingCounter(start: number) {
   return count;
 }
 
-type Lang = "ru" | "kz" | "pl" | "id" | "az";
+type Lang = "ru" | "kz" | "pl" | "id" | "az" | "uz";
 
 function useGeoLang(): [Lang, (l: Lang) => void] {
   const [lang, setLang] = useState<Lang>("ru");
@@ -29,6 +29,7 @@ function useGeoLang(): [Lang, (l: Lang) => void] {
         else if (data.country_code === "PL") setLang("pl");
         else if (data.country_code === "ID") setLang("id");
         else if (data.country_code === "AZ") setLang("az");
+        else if (data.country_code === "UZ") setLang("uz");
       })
       .catch(() => {});
   }, []);
@@ -376,6 +377,74 @@ const content = {
     },
     footer: "🍀 UğurTest — hər gün pozitiv cəlb et ✨",
   },
+  uz: {
+    brand: "Omad — bu sensen!",
+    nav: ["Bosh sahifa", "Hikoyalar", "Maslahatlar", "Test"],
+    hero: {
+      title: "Omad —\nbu sensen!",
+      subtitle: "Omad testimizdan o'ting, o'zingning baxt turini biling, ilhomlantiruvchi hikoyalarni o'qing va hayotingizga pozitiv jalb qilish bo'yicha maslahatlar oling!",
+      counterText: "kishi allaqachon omadini sinadi",
+      guaranteed: "Kafolatli",
+      everyParticipant: "har bir ishtirokchi uchun",
+      prizeText: "So'rovnomadan o'ting va",
+      prizeHighlight: "kafolatli sovg'a oling!",
+      prizeBtn: "🎁 Sovg'angni ol!",
+      quizBtn: "🎲 Testdan o'tish",
+      storiesBtn: "📖 Hikoyalarni o'qish",
+    },
+    cards: [
+      { emoji: "📖", title: "Haqiqiy hikoyalar", desc: "Butun mamlakat bo'ylab oddiy odamlarning ilhomlantiruvchi omad holatlari" },
+      { emoji: "💡", title: "Ekspert maslahatlari", desc: "Hayotingizga omad jalb qilishning 6 ta sinovdan o'tgan usuli" },
+      { emoji: "🎲", title: "Sening omad turing", desc: "5 savol — va qanday baxtli ekaningni bilasang!" },
+    ],
+    imageCta: "Omad ishovchilarni yaxshi ko'radi!",
+    stories: {
+      title: "Omad hikoyalari",
+      subtitle: "Butun mamlakat bo'ylab odamlarning haqiqiy baxt holatlari",
+      items: [
+        { name: "Malika Y.", city: "Toshkent", emoji: "🍀", text: "Men o'zimni omadsiz deb hisoblardim, har kuni kichik omadlarni payqashni boshlamagunimcha. Bir kuni kurtkaning cho'ntagidan 50 ming so'm topdim — aynan qahvaga yetishmaganda. O'shandan beri ishonaman: omad yonimda, faqat ko'rish kerak!", color: "from-yellow-400 to-orange-400" },
+        { name: "Jasur R.", city: "Samarqand", emoji: "⭐", text: "Muhim suhbatga kechikayotgandim, tirbandlik dahshatli edi. To'satdan yo'l ochildi va boshlanishidan 10 daqiqa oldin yetib keldim. Orzu qilgan ishga joylashdim! Hali ham ishonaman — bu omad edi.", color: "from-pink-400 to-purple-400" },
+        { name: "Dilnoza A.", city: "Buxoro", emoji: "🌈", text: "Rasm tanlovida qalpokdan tasodifiy mavzu oldim — «kamalak». Kecha bo'yi chizdim, ulgurmayman deb o'yladim. Birinchi o'rinni egalladin! Endi kamalak mening shaxsiy omad ramzim.", color: "from-green-400 to-teal-400" },
+        { name: "Bobur T.", city: "Namangan", emoji: "🎰", text: "Hayotimda birinchi marta lotereya chipti sotib oldim, shunchaki kassada. Dubayga sayohat yutib oldim! Xotinim avvaliga ishonmadi — chiptani uch marta ko'rsatishim kerak bo'ldi.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Omadni qanday jalb qilish kerak",
+      subtitle: "Pozitivni jalb qilishning 6 ta samarali maslahati",
+      items: [
+        { emoji: "🌅", title: "Kunni minnatdorlik bilan boshlang", text: "Har kuni ertalab minnatdor bo'lgan 3 ta narsani eslang. Bu aqlni ijobiy voqealarga sozlaydi va omad jalb qiladi." },
+        { emoji: "🍀", title: "Talisman olib yuring", text: "Shaxsiy omad ramzingiz bo'ladigan narsani tanlang. Bu zargarlik buyumi, tosh yoki hatto sevimli qalam bo'lishi mumkin." },
+        { emoji: "😊", title: "Notanishlarga jilmaying", text: "Omad ochiq odamlarni yaxshi ko'radi. Notanishga jilmayish muhim tanishuvning boshlanishi yoki shunchaki kayfiyatni ko'tarishi mumkin." },
+        { emoji: "🎯", title: "Kutmang — harakat qiling", text: "Omad harakat qiluvchilarga keladi. Chipta oling, rezyume yuboring, tanishing — har bir harakat yangi eshiklar ochadi." },
+        { emoji: "🌟", title: "O'zingizga ishoning", text: "O'ziga ishonch omadning eng yaxshi magniti. Uddalashingizga ishonganingizda dunyo yordam bera boshlaydi." },
+        { emoji: "🔄", title: "Marshrutlaringizni o'zgartiring", text: "Yangi yo'llar bilan yuring, yangi taomlarni sinab ko'ring, g'ayrioddiy kitoblar o'qing. Yangi yo'llar yangi imkoniyatlar ochadi." },
+      ],
+      ctaTitle: "Omadingizni sinashga tayyormisiz?",
+      ctaDesc: "Testimizdan o'ting va baxt turingizni bilib oling!",
+      ctaBtn: "🎲 Testdan o'tish",
+    },
+    quiz: {
+      title: "Omad testi",
+      questionOf: (cur: number, total: number) => `Savol ${cur} / ${total}`,
+      resultTitle: "Sening natijang",
+      counterText: (n: string) => `Sen bilan birga ${n} kishi sovg'a oldi 🎁`,
+      prizeBtn: "🎁 Sovg'angni ol!",
+      retryBtn: "🔄 Qayta o'tish",
+      questions: [
+        { id: 1, question: "Kundalik hayotda sizga qanchalik tez-tez omad kulib boqadi?", options: ["Deyarli har kuni! 🎉", "Ba'zan bo'ladi ✨", "Kamdan-kam, lekin aniq 🍀", "Soatimni kutayapman ⏳"] },
+        { id: 2, question: "Qaysi omad talismani sizga yaqinroq?", options: ["To'rt barglik yonchiq 🍀", "Taqacha 🐴", "Tanga 🪙", "Yulduz ⭐"] },
+        { id: 3, question: "Omad kerak bo'lganda nima qilasiz?", options: ["Yog'ochga taqillataman 🌳", "Yulduzga tilak tilayman 🌠", "O'zimga tayanaman 💪", "Sevimli talismanmni olaman 🎁"] },
+        { id: 4, question: "Omad sizga qayerda ko'proq kulib boqadi?", options: ["Ishda / o'qishda 📚", "Shaxsiy hayotda 💕", "Tasodifiy uchrashuvlarda 🤝", "Moliyada 💰"] },
+        { id: 5, question: "Omadni jalb qilish mumkin deb o'ylaysizmi?", options: ["Ha, albatta! ✨", "Ko'proq ha 🌟", "Shubhalanaman 🤔", "Hamma narsa odamning qo'lida 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Yashirin yulduz ⭐", desc: "Omad allaqachon yoningizda — shunchaki hali payqamayapsiz! Kichik g'alabalar kundaligini yuritishni boshlang va hayot qanday omadli lahzalarga to'la ekanini ko'rasiz.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Omad izlovchi 🌈", desc: "Siz to'g'ri yo'ldasiz! Omad sizni muntazam ziyorat qiladi va uni qadrlay bilasiz. Pozitiv bilan oldinga intilishda davom eting!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Taqdirning sevgilisi 🍀", desc: "Omad sizning doimiy hamrohingiz! Siz ijobiy energiya tarataysiz, kerakli odamlarni jalb qilaysiz va to'g'ri vaqtda to'g'ri joyda bo'lasiz.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 OmadTest — har kuni pozitiv jalb qil ✨",
+  },
 };
 
 export default function Index() {
@@ -445,7 +514,7 @@ export default function Index() {
             </span>
           </div>
           <div className="flex items-center gap-1 md:gap-2">
-            {(["ru", "kz", "pl", "id", "az"] as Lang[]).map((l) => (
+            {(["ru", "kz", "pl", "id", "az", "uz"] as Lang[]).map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
@@ -455,7 +524,7 @@ export default function Index() {
                     : "border-yellow-300 text-yellow-600 hover:bg-yellow-50"
                 }`}
               >
-                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : l === "pl" ? "🇵🇱" : l === "id" ? "🇮🇩" : "🇦🇿"}
+                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : l === "pl" ? "🇵🇱" : l === "id" ? "🇮🇩" : l === "az" ? "🇦🇿" : "🇺🇿"}
               </button>
             ))}
             {navSections.map((id, idx) => (
