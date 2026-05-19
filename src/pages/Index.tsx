@@ -17,7 +17,7 @@ function useTickingCounter(start: number) {
   return count;
 }
 
-type Lang = "ru" | "kz" | "pl" | "id";
+type Lang = "ru" | "kz" | "pl" | "id" | "az";
 
 function useGeoLang(): [Lang, (l: Lang) => void] {
   const [lang, setLang] = useState<Lang>("ru");
@@ -28,6 +28,7 @@ function useGeoLang(): [Lang, (l: Lang) => void] {
         if (data.country_code === "KZ") setLang("kz");
         else if (data.country_code === "PL") setLang("pl");
         else if (data.country_code === "ID") setLang("id");
+        else if (data.country_code === "AZ") setLang("az");
       })
       .catch(() => {});
   }, []);
@@ -307,6 +308,74 @@ const content = {
     },
     footer: "🍀 KuisHoki — tarik hal positif setiap hari ✨",
   },
+  az: {
+    brand: "Uğur sənsən!",
+    nav: ["Ana səhifə", "Hekayələr", "Məsləhətlər", "Test"],
+    hero: {
+      title: "Uğur —\nsénsən!",
+      subtitle: "Uğur testimizdən keç, öz bəxt növünü öyrən, ilhamverici hekayələri oxu və həyatına pozitiv çəkmək üçün məsləhətlər al!",
+      counterText: "nəfər artıq uğurunu yoxladı",
+      guaranteed: "Zəmanətlidir",
+      everyParticipant: "hər iştirakçıya",
+      prizeText: "Sorğudan keç və",
+      prizeHighlight: "zəmanətli mükafat al!",
+      prizeBtn: "🎁 Mükafatını al!",
+      quizBtn: "🎲 Testi keç",
+      storiesBtn: "📖 Hekayələri oxu",
+    },
+    cards: [
+      { emoji: "📖", title: "Həqiqi hekayələr", desc: "Ölkə boyunca adi insanların ilhamverici uğur hadisələri" },
+      { emoji: "💡", title: "Ekspert məsləhətləri", desc: "Həyatına uğur çəkməyin 6 sınaqdan keçmiş yolu" },
+      { emoji: "🎲", title: "Sənin uğur növün", desc: "5 sual — və nə qədər bəxtli olduğunu biləcəksən!" },
+    ],
+    imageCta: "Uğur inananları sevir!",
+    stories: {
+      title: "Uğur hekayələri",
+      subtitle: "Ölkə boyunca insanların həqiqi bəxt hadisələri",
+      items: [
+        { name: "Aynur H.", city: "Bakı", emoji: "🍀", text: "Həmişə özümü bəxtsiz hesab edirdim, hər gün kiçik uğurları fərq etməyə başlayana qədər. Bir dəfə gödəkcənin cibindən 20 manat tapdım — məhz qəhvəyə çatmayanda. O vaxtdan inanıram: uğur yanımda, sadəcə görmək lazımdır!", color: "from-yellow-400 to-orange-400" },
+        { name: "Rauf M.", city: "Gəncə", emoji: "⭐", text: "Mühüm müsahibəyə gecikirdim, tıxac dəhşətli idi. Birdən yol açıldı və başlamazdan 10 dəqiqə əvvəl çatdım. Xəyal etdiyim işə düzəldim! Bu uğur olduğuna hələ də inanıram.", color: "from-pink-400 to-purple-400" },
+        { name: "Könül Ə.", city: "Sumqayıt", emoji: "🌈", text: "Rəsm müsabiqəsində papaqdan təsadüfi mövzu çıxartdım — «göy qurşağı». Gecə boyunca çəkdim, çatdırmayacağımı düşündüm. Birinci yer tutdum! İndi göy qurşağı mənim şəxsi uğur rəmzimdir.", color: "from-green-400 to-teal-400" },
+        { name: "Tural N.", city: "Lənkəran", emoji: "🎰", text: "Həyatımda ilk dəfə lotereya bileti aldım, kassada sadəcə belə. Türkiyəyə səyahət qazandım! Arvadım əvvəlcə inanmadı — bileti üç dəfə göstərməli oldum.", color: "from-blue-400 to-cyan-400" },
+      ],
+    },
+    tips: {
+      title: "Uğuru necə cəlb etmək olar",
+      subtitle: "Pozitivi cəlb etmək üçün 6 işlək məsləhət",
+      items: [
+        { emoji: "🌅", title: "Günü minnətdarlıqla başlayın", text: "Hər səhər minnətdar olduğunuz 3 şeyi xatırlayın. Bu ağlı müsbət hadisələrə kökləndirir və uğur cəlb edir." },
+        { emoji: "🍀", title: "Talisman daşıyın", text: "Şəxsi uğur simvolunuz olacaq bir əşya seçin. Bu zərgərlik məmulatı, daş və ya hətta sevimli qələm ola bilər." },
+        { emoji: "😊", title: "Tanımadıqlara gülümsəyin", text: "Uğur açıq insanları sevir. Tanımadığa gülümsəmə mühüm tanışlığın başlanğıcı və ya sadəcə əhval-ruhiyyənizi yüksəldə bilər." },
+        { emoji: "🎯", title: "Gözləməyin — hərəkət edin", text: "Uğur hərəkət edənlərə gəlir. Bilet alın, CV göndərin, tanış olun — hər hərəkət yeni qapılar açır." },
+        { emoji: "🌟", title: "Özünüzə inanın", text: "Özünə inam uğurun ən yaxşı maqnitidir. Bacardığına inandıqda dünya kömək etməyə başlayır." },
+        { emoji: "🔄", title: "Marşrutlarınızı dəyişdirin", text: "Yeni yollarla gedin, yeni yeməklər sınayın, qeyri-adi kitablar oxuyun. Yeni yollar yeni imkanlar açır." },
+      ],
+      ctaTitle: "Uğurunu yoxlamağa hazırsan?",
+      ctaDesc: "Testimizdən keç və öz bəxt növünü öyrən!",
+      ctaBtn: "🎲 Testi keç",
+    },
+    quiz: {
+      title: "Uğur testi",
+      questionOf: (cur: number, total: number) => `Sual ${cur} / ${total}`,
+      resultTitle: "Sənin nəticən",
+      counterText: (n: string) => `Səninlə birlikdə ${n} nəfər mükafat aldı 🎁`,
+      prizeBtn: "🎁 Mükafatını al!",
+      retryBtn: "🔄 Yenidən keç",
+      questions: [
+        { id: 1, question: "Gündəlik həyatda sizə nə qədər tez-tez uğur gəlir?", options: ["Demək olar hər gün! 🎉", "Bəzən olur ✨", "Nadir, amma dəqiq 🍀", "Saatımı gözləyirəm ⏳"] },
+        { id: 2, question: "Hansı uğur talısmanı sizə daha yaxındır?", options: ["Dörd yarpaq yonca 🍀", "Nalça 🐴", "Sikkə 🪙", "Ulduz ⭐"] },
+        { id: 3, question: "Uğur lazım olanda nə edirsiniz?", options: ["Ağaca döyürəm 🌳", "Ulduza arzu edirəm 🌠", "Özümə güvənirəm 💪", "Sevimli talısmanımı götürürəm 🎁"] },
+        { id: 4, question: "Uğur sizə ən çox harada gəlir?", options: ["İşdə / təhsildə 📚", "Şəxsi həyatda 💕", "Təsadüfi görüşlərdə 🤝", "Maliyyədə 💰"] },
+        { id: 5, question: "Uğurun cəlb edilə biləcəyinə inanırsınız?", options: ["Bəli, mütləq! ✨", "Daha çox bəli 🌟", "Şübhələnirəm 🤔", "Hər şey insanın əlindədir 💡"] },
+      ],
+      results: [
+        { range: [0, 6], title: "Gizli ulduz ⭐", desc: "Uğur artıq yanınızdadır — sadəcə hələ fərq etmirsiniz! Kiçik qələbələr gündəliyi aparmağa başlayın və həyatın nə qədər uğurlu anlarla dolu olduğunu görəcəksiniz.", color: "from-yellow-400 via-orange-400 to-red-400" },
+        { range: [7, 12], title: "Uğur axtaran 🌈", desc: "Siz doğru yoldasınız! Uğur sizi müntəzəm ziyarət edir və onu qiymətləndirə bilirsiniz. Pozitivlə irəliləməyə davam edin!", color: "from-green-400 via-teal-400 to-blue-400" },
+        { range: [13, 20], title: "Taleyin sevimlisi 🍀", desc: "Uğur sizin daimi yoldaşınızdır! Siz müsbət enerji yayırsınız, lazımi insanları cəlb edirsiniz və lazımi vaxtda lazımi yerdə olursunuz.", color: "from-pink-400 via-purple-400 to-indigo-400" },
+      ],
+    },
+    footer: "🍀 UğurTest — hər gün pozitiv cəlb et ✨",
+  },
 };
 
 export default function Index() {
@@ -376,7 +445,7 @@ export default function Index() {
             </span>
           </div>
           <div className="flex items-center gap-1 md:gap-2">
-            {(["ru", "kz", "pl", "id"] as Lang[]).map((l) => (
+            {(["ru", "kz", "pl", "id", "az"] as Lang[]).map((l) => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
@@ -386,7 +455,7 @@ export default function Index() {
                     : "border-yellow-300 text-yellow-600 hover:bg-yellow-50"
                 }`}
               >
-                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : l === "pl" ? "🇵🇱" : "🇮🇩"}
+                {l === "ru" ? "🇷🇺" : l === "kz" ? "🇰🇿" : l === "pl" ? "🇵🇱" : l === "id" ? "🇮🇩" : "🇦🇿"}
               </button>
             ))}
             {navSections.map((id, idx) => (
